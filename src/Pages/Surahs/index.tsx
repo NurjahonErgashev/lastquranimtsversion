@@ -1,9 +1,9 @@
 import styles from "./index.module.scss";
 import { useGetAll } from "../../utils/hooks/useGet";
 import { Link } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import { Loader } from "../../Components/Loader";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { AllData } from "../../utils/hooks/useGet";
 import { Header } from "../../Components/Header";
 export const Surahs = () => {

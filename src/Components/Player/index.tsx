@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import { Button } from "@mui/material";
 import { useStorage } from "../../utils/storage/storage";
 import styles from "./index.module.scss";

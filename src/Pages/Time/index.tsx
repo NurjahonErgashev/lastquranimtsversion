@@ -2,28 +2,13 @@ import { useEffect, useRef } from "react";
 import styles from "./index.module.scss";
 import { Button, Dropdown } from "antd";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useStorage } from "../../utils/storage/storage";
 import axios from "axios";
 import { Header } from "../../Components/Header";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../../Components/Loader";
-interface Times {
-  region: string;
-  date: string;
-  weekday: string;
-  times: {
-    tong_saharlik: string;
-    quyosh: string;
-    peshin: string;
-    asr: string;
-    shom_iftor: string;
-    hufton: string;
-  };
-}
 
 export default function Time() {
-  const nav = useNavigate();
   const context = useStorage((state) => state.context);
   const setContext = useStorage((state) => state.setContext);
   const [dateNow, setDate] = useState(getTime());
@@ -99,7 +84,7 @@ export default function Time() {
       if (num) {
         const activeCardIndex = newArr.indexOf(num);
         const notActiveCardIndex: (number | false)[] = newArr
-          .map((item: any, index: number) => index != activeCardIndex && index)
+          .map((_: any, index: number) => index != activeCardIndex && index)
           .filter((i: any) => ![false].includes(i));
 
         if (
@@ -138,87 +123,40 @@ export default function Time() {
   if (data.isLoading) {
     return <Loader></Loader>
   }
-  function nmadr() {
-
-    const arrData: (string | number)[] = Object.values(data.data.times);
-    const newArr: string[] = arrData
-      .sort((a: any, b: any) => a - b)
-      .map((e: any) => e.split(":").join(""));
-    const num: string | undefined = newArr.find((e) => e >= strData);
-    if (num != undefined) {
-      const activeCardIndex = newArr.indexOf(num);
-      const notActiveCardIndex: (number | false)[] = newArr
-        .map((item: any, index: number) => index != activeCardIndex && index)
-        .filter((i: any) => ![false].includes(i));
-
-      if (
-        typeof notActiveCardIndex[0] != "boolean" &&
-        notActiveCardIndex[1] &&
-        notActiveCardIndex[2] &&
-        notActiveCardIndex[3] &&
-        notActiveCardIndex[4]
-      ) {
-        console.log(times.current?.children);
-        times.current?.children &&
-          times.current?.children[notActiveCardIndex[0]]?.classList.add(
-            styles.notActive
-          );
-        times.current?.children &&
-          times.current?.children[notActiveCardIndex[1]].classList.add(
-            styles.notActive
-          );
-        times.current?.children &&
-          times.current.children[notActiveCardIndex[2]].classList.add(
-            styles.notActive
-          );
-        times.current?.children &&
-          times.current?.children[notActiveCardIndex[3]].classList.add(
-            styles.notActive
-          );
-        times.current?.children &&
-          times.current?.children[notActiveCardIndex[4]].classList.add(
-            styles.notActive
-          );
-        times.current?.children &&
-          times.current?.children[activeCardIndex].classList.add(styles.active);
-      }
-    }
-
-  }
   const items = [
     {
       key: "1",
-      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext(`Andijon`)}>Andijon</b>,
+      label: <b onClick={() => setContext(`Andijon`)}>Andijon</b>,
     },
     {
       key: "2",
-      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Buxoro")}>Buxoro</b>,
+      label: <b onClick={() => setContext("Buxoro")}>Buxoro</b>,
     },
     {
       key: "3",
-      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Jizzax")}>Jizzax</b>,
+      label: <b onClick={() => setContext("Jizzax")}>Jizzax</b>,
     },
     {
       key: "5",
-      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Navoiy")}>Navoiy</b>,
+      label: <b onClick={() => setContext("Navoiy")}>Navoiy</b>,
     },
     {
       key: "6",
-      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Namangan")}>Namangan</b>,
+      label: <b onClick={() => setContext("Namangan")}>Namangan</b>,
     },
 
     {
       key: "7",
-      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Samarqand")}>Samarqand</b>,
+      label: <b onClick={() => setContext("Samarqand")}>Samarqand</b>,
     },
 
     {
       key: "8",
-      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Toshkent")}>Toshkent</b>,
+      label: <b onClick={() => setContext("Toshkent")}>Toshkent</b>,
     },
     {
       key: "9",
-      label: <b onClick={(e) => setContext(`Farg'ona`)}>Farg'ona</b>,
+      label: <b onClick={() => setContext(`Farg'ona`)}>Farg'ona</b>,
     },
 
   ];

@@ -1,5 +1,5 @@
 import { useStorage } from "../storage/storage";
-import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { zapros } from "../axios";
 export interface AllData {
   number: number;
