@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useStorage } from "../../utils/storage/storage";
 import axios from "axios";
 import { Header } from "../../Components/Header";
-
+import { useQuery } from "@tanstack/react-query";
+import { Loader } from "../../Components/Loader";
 interface Times {
   region: string;
   date: string;
@@ -22,7 +23,6 @@ interface Times {
 }
 
 export default function Time() {
-  const [datas, setDatas] = useState<Times | null>(null);
   const nav = useNavigate();
   const context = useStorage((state) => state.context);
   const setContext = useStorage((state) => state.setContext);
@@ -34,11 +34,9 @@ export default function Time() {
     }, 1000);
   }, []);
 
-  useEffect(() => {
-    axios
-      .get(`https://islomapi.uz/api/present/day?region=${context}`)
-      .then((data) => setDatas(data.data));
-  }, [context]);
+  const data = useQuery(['region', context], () => axios
+    .get(`https://islomapi.uz/api/present/day?region=${context}`)
+    .then((data) => data.data))
   function getTime() {
     const date = new Date(),
       hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours(),
@@ -50,192 +48,182 @@ export default function Time() {
   }
 
   const strData = [dateNow.hours, dateNow.minutes].join("");
-  if (datas != null) {
-    const arrData: (string | number)[] = Object.values(datas.times);
-    let newArr = arrData
-      .sort((a, b) => a - b)
-      .map((e, i) => e.split(":").join(""));
-    let num: any = newArr.find((e: any) => e >= strData);
-    const activeCardIndex = newArr.indexOf(num);
-    const notActiveCardIndex: number[] = newArr
-      .map((item: any, index: number) => index != activeCardIndex && index)
-      .filter((i: any) => ![false].includes(i));
+  useEffect(() => {
+    if (times.current != null) {
+      // console.log(times.current);
 
-    times.current?.children &&
-      times.current?.children[notActiveCardIndex[0]]?.classList.add(
-        "notActive"
-      );
-    times.current?.children &&
-      times.current?.children[notActiveCardIndex[1]].classList.add("notActive");
-    times.current?.children &&
-      times.current.children[notActiveCardIndex[2]].classList.add("notActive");
-    times.current?.children &&
-      times.current?.children[notActiveCardIndex[3]].classList.add("notActive");
-    times.current?.children &&
-      times.current?.children[notActiveCardIndex[4]].classList.add("notActive");
-    times.current?.children &&
-      times.current?.children[activeCardIndex].classList.add("active");
+      // nmadr()
+      const arrData: (string)[] = Object.values(data.data.times);
+
+      const newArr: string[] = arrData
+        .sort((a: any, b: any) => a - b)
+        .map((e: any) => e.split(":").join(""));
+      const num: string | undefined = newArr.find((e) => e >= strData);
+      console.log(num);
+
+
+      if (!num) {
+        const notActiveCardIndex: (number | false)[] = [1, 2, 3, 4, 5]
+
+        if (
+          typeof notActiveCardIndex[0] != 'boolean' &&
+          notActiveCardIndex[1] &&
+          notActiveCardIndex[2] &&
+          notActiveCardIndex[3] &&
+          notActiveCardIndex[4]
+        ) {
+          times.current?.children &&
+            times.current?.children[notActiveCardIndex[0]]?.classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current?.children[notActiveCardIndex[1]].classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current.children[notActiveCardIndex[2]].classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current?.children[notActiveCardIndex[3]].classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current?.children[notActiveCardIndex[4]].classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current?.children[0].classList.add(styles.active);
+        }
+      }
+      if (num) {
+        const activeCardIndex = newArr.indexOf(num);
+        const notActiveCardIndex: (number | false)[] = newArr
+          .map((item: any, index: number) => index != activeCardIndex && index)
+          .filter((i: any) => ![false].includes(i));
+
+        if (
+          typeof notActiveCardIndex[0] != 'boolean' &&
+          notActiveCardIndex[1] &&
+          notActiveCardIndex[2] &&
+          notActiveCardIndex[3] &&
+          notActiveCardIndex[4]
+        ) {
+          times.current?.children &&
+            times.current?.children[notActiveCardIndex[0]]?.classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current?.children[notActiveCardIndex[1]].classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current.children[notActiveCardIndex[2]].classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current?.children[notActiveCardIndex[3]].classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current?.children[notActiveCardIndex[4]].classList.add(
+              styles.notActive
+            );
+          times.current?.children &&
+            times.current?.children[activeCardIndex].classList.add(styles.active);
+        }
+      }
+    }
+  }, [times.current])
+  if (data.isLoading) {
+    return <Loader></Loader>
   }
+  function nmadr() {
 
+    const arrData: (string | number)[] = Object.values(data.data.times);
+    const newArr: string[] = arrData
+      .sort((a: any, b: any) => a - b)
+      .map((e: any) => e.split(":").join(""));
+    const num: string | undefined = newArr.find((e) => e >= strData);
+    if (num != undefined) {
+      const activeCardIndex = newArr.indexOf(num);
+      const notActiveCardIndex: (number | false)[] = newArr
+        .map((item: any, index: number) => index != activeCardIndex && index)
+        .filter((i: any) => ![false].includes(i));
+
+      if (
+        typeof notActiveCardIndex[0] != "boolean" &&
+        notActiveCardIndex[1] &&
+        notActiveCardIndex[2] &&
+        notActiveCardIndex[3] &&
+        notActiveCardIndex[4]
+      ) {
+        console.log(times.current?.children);
+        times.current?.children &&
+          times.current?.children[notActiveCardIndex[0]]?.classList.add(
+            styles.notActive
+          );
+        times.current?.children &&
+          times.current?.children[notActiveCardIndex[1]].classList.add(
+            styles.notActive
+          );
+        times.current?.children &&
+          times.current.children[notActiveCardIndex[2]].classList.add(
+            styles.notActive
+          );
+        times.current?.children &&
+          times.current?.children[notActiveCardIndex[3]].classList.add(
+            styles.notActive
+          );
+        times.current?.children &&
+          times.current?.children[notActiveCardIndex[4]].classList.add(
+            styles.notActive
+          );
+        times.current?.children &&
+          times.current?.children[activeCardIndex].classList.add(styles.active);
+      }
+    }
+
+  }
   const items = [
     {
       key: "1",
-      label: (
-        <b
-          onClick={(e) => setContext(e.target.textContent)}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          Andijon
-        </b>
-      ),
+      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext(`Andijon`)}>Andijon</b>,
     },
     {
       key: "2",
-      label: (
-        <b
-          onClick={(e) => setContext("Buxoro")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.aliyun.com"
-        >
-          Buxoro
-        </b>
-      ),
+      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Buxoro")}>Buxoro</b>,
     },
     {
       key: "3",
-      label: (
-        <b
-          onClick={(e) => setContext("Jizzax")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Jizzax
-        </b>
-      ),
-    },
-    {
-      key: "4",
-      label: (
-        <b
-          onClick={(e) => setContext("Qashqadaryo")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Qashqadaryo
-        </b>
-      ),
+      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Jizzax")}>Jizzax</b>,
     },
     {
       key: "5",
-      label: (
-        <b
-          onClick={() => setContext("Navoiy")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Navoiy
-        </b>
-      ),
+      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Navoiy")}>Navoiy</b>,
     },
     {
       key: "6",
-      label: (
-        <b
-          onClick={(e) => setContext("Namangan")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Namangan
-        </b>
-      ),
+      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Namangan")}>Namangan</b>,
     },
+
     {
       key: "7",
-      label: (
-        <b
-          onClick={(e) => setContext("Sirdaryo")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Sirdaryo
-        </b>
-      ),
+      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Samarqand")}>Samarqand</b>,
     },
+
     {
       key: "8",
-      label: (
-        <b
-          onClick={(e: any) => setContext("Samarqand")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Samarqand
-        </b>
-      ),
+      label: <b onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => setContext("Toshkent")}>Toshkent</b>,
     },
     {
       key: "9",
-      label: (
-        <b
-          onClick={(e) => setContext("  Surxondaryo")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Surxondaryo
-        </b>
-      ),
+      label: <b onClick={(e) => setContext(`Farg'ona`)}>Farg'ona</b>,
     },
-    {
-      key: "10",
-      label: (
-        <b
-          onClick={(e) => setContext("Toshkent")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Toshkent
-        </b>
-      ),
-    },
-    {
-      key: "11",
-      label: (
-        <b
-          onClick={(e) => setContext(`Farg'ona`)}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Farg'ona
-        </b>
-      ),
-    },
-    {
-      key: "11",
-      label: (
-        <b
-          onClick={(e) => setContext("Xorazm")}
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.luohanacademy.com"
-        >
-          Xorazm
-        </b>
-      ),
-    },
+
   ];
-  return (
+
+  return data.data && (
     <>
       <Header></Header>
       <div className={styles.Time}>
@@ -266,19 +254,19 @@ export default function Time() {
               Mintaqa : <span>{context} shahri</span>
             </h2>
             <div className={styles.day}>
-              <h2>{datas != null && datas.weekday}</h2>
+              <h2>{data.data.date}</h2>
               <h1>
                 {dateNow.hours + ":" + dateNow.minutes + ":" + dateNow.seconds}
               </h1>
             </div>
           </div>
           <div className={styles.times} ref={times}>
-            <div className={styles.card}>
+            <div className={styles.card} >
               <h2>Tong</h2>
               <div className={styles.img}>
                 <img src="https://namoz-vaqti.vercel.app/img/Tong.png" alt="" />
               </div>
-              <h1>{datas != null && datas.times.tong_saharlik}</h1>
+              <h1>{data.data.times.tong_saharlik}</h1>
             </div>
             <div className={styles.card}>
               <h2>Quyosh</h2>
@@ -288,7 +276,7 @@ export default function Time() {
                   alt=""
                 />
               </div>
-              <h1>{datas != null && datas.times.quyosh}</h1>
+              <h1>{data.data.times.quyosh}</h1>
             </div>
             <div className={styles.card}>
               <h2>Peshin</h2>
@@ -298,21 +286,21 @@ export default function Time() {
                   alt=""
                 />
               </div>
-              <h1>{datas != null && datas.times.peshin}</h1>
+              <h1>{data.data.times.peshin}</h1>
             </div>
             <div className={styles.card}>
               <h2>Asr</h2>
               <div className={styles.img}>
                 <img src="https://namoz-vaqti.vercel.app/img/Asr.png" alt="" />
               </div>
-              <h1>{datas != null && datas.times.asr}</h1>
+              <h1>{data.data.times.asr}</h1>
             </div>
             <div className={styles.card}>
               <h2>Shom</h2>
               <div className={styles.img}>
                 <img src="https://namoz-vaqti.vercel.app/img/Shom.png" alt="" />
               </div>
-              <h1>{datas != null && datas.times.shom_iftor}</h1>
+              <h1>{data.data.times.shom_iftor}</h1>
             </div>
             <div className={styles.card}>
               <h2>Xufton</h2>
@@ -322,7 +310,7 @@ export default function Time() {
                   alt=""
                 />
               </div>
-              <h1>{datas != null && datas.times.hufton}</h1>
+              <h1>{data.data.times.hufton}</h1>
             </div>
           </div>
         </div>

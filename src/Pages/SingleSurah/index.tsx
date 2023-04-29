@@ -22,11 +22,10 @@ export const SingleSurahs = () => {
   const setStatus = useStorage((state) => state.setStatus);
   const status = useStorage((state) => state.status);
 
-  const items = useGet?.data?.data?.data?.ayahs;
-
   if (useGet.isLoading) {
     return <Loader></Loader>;
   }
+  const items = useGet?.data?.data?.data?.ayahs;
 
   return (
     <>

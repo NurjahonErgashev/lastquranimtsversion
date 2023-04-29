@@ -18,11 +18,3 @@ body {
   height: 100vh;
 }
 
-.notActive{
-  background: white;
-  color: green;
-}
-.active{
-  background: green;
-  /* color: green; */
-}

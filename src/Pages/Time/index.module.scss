@@ -88,6 +88,12 @@
   }
   
 }
-.active{
-  background: red;
+
+.notActive {
+  background: white;
+  color: green;
+}
+.active {
+  background: green;
+  color: white;
 }
