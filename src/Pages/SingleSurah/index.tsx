@@ -7,7 +7,6 @@ import { Header } from "../../Components/Header";
 interface Ayahs {
   number: number;
   audio: string;
-  audioSecondary: any[];
   text: string;
   numberInSurah: number;
 }
