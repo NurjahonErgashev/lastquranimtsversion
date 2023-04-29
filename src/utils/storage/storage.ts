@@ -1,6 +1,7 @@
 import create from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 interface Store {
+  name : string
   author: string;
   wrote: string;
   setWrote : (str : string)=>void
@@ -20,6 +21,7 @@ interface Store {
 export const useStorage = create<Store>()(
   persist(
     (set) => ({
+      name : 'test',
       author: "ar.alafasy",
       setAuthor: (by) => set(() => ({ author: by })),
       audio: 0,
