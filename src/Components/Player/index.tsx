@@ -25,8 +25,8 @@ export default function Player(): JSX.Element {
 
   if (status.status == 'pause') {
     audioRef.current?.pause()
-  }else{
-    
+  } else {
+
     audioRef.current?.play()
   }
 
@@ -40,18 +40,32 @@ export default function Player(): JSX.Element {
     <div className={styles.Player}>
       <div className={styles.container}>
         <div className={styles.wrapper}>
-          {audio == 1 ? (
-            <Button variant="contained" disabled>
-              {" "}
-              previous{" "}
-            </Button>
-          ) : (
-            <Button variant="contained" onClick={() => setAudio(audio - 1)}>
-              {" "}
-              previous{" "}
-            </Button>
-          )}
+          <div className={styles.btns}>
 
+
+            {audio == 1 ? (
+              <Button variant="contained" disabled>
+                {" "}
+                previous{" "}
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={() => setAudio(audio - 1)}>
+                {" "}
+                previous{" "}
+              </Button>
+            )}
+            {audio < 6236 ? (
+              <Button variant="contained" onClick={() => setAudio(audio + 1)}>
+                {" "}
+                next{" "}
+              </Button>
+            ) : (
+              <Button variant="contained" disabled>
+                {" "}
+                next{" "}
+              </Button>
+            )}
+          </div>
           <audio
             src={`https://cdn.islamic.network/quran/audio/128/${author}/${audio}.mp3`}
             controls
@@ -59,17 +73,7 @@ export default function Player(): JSX.Element {
             preload="auto"
             autoPlay
           ></audio>
-          {audio < 6236 ? (
-            <Button variant="contained" onClick={() => setAudio(audio + 1)}>
-              {" "}
-              next{" "}
-            </Button>
-          ) : (
-            <Button variant="contained" disabled>
-              {" "}
-              next{" "}
-            </Button>
-          )}
+
         </div>
       </div>
     </div>

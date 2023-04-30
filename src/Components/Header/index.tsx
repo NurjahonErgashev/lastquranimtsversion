@@ -60,9 +60,6 @@ export function Header() {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                select
-              </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                   <InputLabel id="demo-select-small-label">Language</InputLabel>

@@ -1,12 +1,12 @@
 .Time {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 20px;
   color: white;
-  h1{
+  h1 {
     width: 100%;
     text-align: center;
     padding: 20px 30px;
@@ -19,6 +19,10 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
+    .infowrapper{
+      width: 100%;
+      display: flex;
+    }
     .text {
       width: 100%;
       text-align: center;
@@ -33,44 +37,47 @@
         gap: 5px;
       }
     }
-    .info{
+    .info {
+      width: 50%;
+
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      span{
+      span {
         color: #ffc700;
       }
     }
-    .day{
+    .day {
       display: flex;
       align-items: center;
-      height: 100%;
-      h2{
-        display: flex;
-        align-items: center;
-        gap: 5px;
+      height: 50%;
+      h2 {
         color: #ffc700;
+        font-size: 1.2rem;
+        width: 50%;
       }
-      h1{
-        width: 100px;
+      h1 {
+        width: 50%;
       }
     }
     .times {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        gap: 30px;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      // gap: 30px;
       .card {
+        margin: 0 auto;
         overflow: hidden;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         padding: 30px 20px;
-        width:200px;
+        width: 200px;
         height: 250px;
         border-radius: 10px;
-        
+
         .img {
           width: 100%;
           height: 50%;
@@ -82,18 +89,111 @@
             height: 100px;
           }
         }
-       
       }
     }
   }
-  
 }
 
 .notActive {
   background: white;
   color: green;
+  h1 {
+    font-size: 1.5em;
+  }
 }
 .active {
   background: green;
   color: white;
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 1125px) and (min-width: 780px) {
+  .Time {
+    width: 100%;
+    // background: red;
+    .container {
+      .times {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+  }
+}
+@media (max-width: 779px) and (min-width: 500px) {
+  .Time {
+    width: 100%;
+    // background: red;
+    
+    .container {
+      .infowrapper{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .info{
+        h2{
+          font-size: 1.2em;
+        }
+      }
+      .day {
+        width: 100%;
+        h1 {
+          font-size: 1.5em;
+        }
+        h2 {
+          text-align: center;
+          font-size: 1.5em;
+          color: #ffc700;
+        }
+      }
+      .times {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+    }
+  }
+}
+@media (max-width: 499px) {
+  .Time {
+    width: 100%;
+    // background: red;
+    
+    .container {
+      .infowrapper{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .info{
+        h2{
+          font-size: 1.2em;
+        }
+      }
+      .text{
+        h2{
+          font-size: 1.2em;
+        }
+      }
+      .day {
+        width: 100%;
+        h1 {
+          font-size: 1.2em;
+        }
+        h2 {
+          text-align: center;
+          font-size: 1.2em;
+          color: #ffc700;
+        }
+      }
+      .times {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        gap: 20px;
+      }
+    }
+  }
 }

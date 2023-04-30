@@ -164,9 +164,10 @@ export default function Time() {
   return data.data && (
     <>
       <Header></Header>
-      <div className={styles.Time}>
-        <h1>Nomoz Vaqtlari</h1>
-        <div className={styles.container}>
+      <div className={styles.Time} >
+        <div className={styles.container}  style={{
+          paddingTop : '150px',
+        }}>
           <div className={styles.text}>
             <h2>Hududni tanlang:</h2>
             <h2>
@@ -187,12 +188,16 @@ export default function Time() {
               </Dropdown>
             </h2>
           </div>
-          <div className={styles.info}>
-            <h2>
-              Mintaqa : <span>{context} shahri</span>
-            </h2>
+          <div className={styles.infowrapper}>
+
+
+            <div className={styles.info}>
+              <h2>
+                Mintaqa : <span>{context} shahri</span>
+              </h2>
+            </div>
             <div className={styles.day}>
-              <h2>{data.data.date}</h2>
+              <h2 >{data.data.date}</h2>
               <h1>
                 {dateNow.hours + ":" + dateNow.minutes + ":" + dateNow.seconds}
               </h1>
